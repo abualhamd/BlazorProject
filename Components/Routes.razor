@@ -1,6 +1,15 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+﻿<Router AppAssembly="typeof(Program).Assembly" OnNavigateAsync="(args) => LogNavigationAsync(args)">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    private Task LogNavigationAsync(NavigationContext args)
+    {
+        // Example logging logic
+        Console.WriteLine($"Navigating to {args.Path} at {DateTime.Now}");
+        return Task.CompletedTask;
+    }
+}
