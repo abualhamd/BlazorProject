@@ -19,7 +19,7 @@
     <p>You entered: @userInput</p>
 }
 <div>
-    <input type="text" @oninput="(args)=> InputText = args.Value?.ToString() ?? string.Empty" value="@InputText" />
+    <input type="text" @bind="InputText" @bind:event="oninput"/>
     <CustomButton OnClick="ClearInputText">clear</CustomButton>
 </div>
 <p>@InputText</p>
