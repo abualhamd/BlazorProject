@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@using System.Globalization
 @layout Layout.MainLayout
 @rendermode InteractiveServer
 
@@ -17,6 +18,11 @@
 {
     <p>You entered: @userInput</p>
 }
+<div>
+    <input type="text" @oninput="(args)=> InputText = args.Value?.ToString() ?? string.Empty" value="@InputText" />
+    <CustomButton OnClick="ClearInputText">clear</CustomButton>
+</div>
+<p>@InputText</p>
 
 @code {
     private int currentCount = 0;
@@ -33,5 +39,11 @@
     private async Task OnInputChange(ChangeEventArgs args)
     {
         userInput = args.Value?.ToString();
+    }
+
+    public string InputText { get; set;} = string.Empty;
+
+    private void ClearInputText(){
+        InputText = string.Empty;
     }
 }
