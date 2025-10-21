@@ -76,3 +76,4 @@ D:\dotnet_projects\BlazorProject\obj\Debug\net9.0\refint\BlazorProject.dll
 D:\dotnet_projects\BlazorProject\obj\Debug\net9.0\BlazorProject.pdb
 D:\dotnet_projects\BlazorProject\obj\Debug\net9.0\BlazorProject.genruntimeconfig.cache
 D:\dotnet_projects\BlazorProject\obj\Debug\net9.0\ref\BlazorProject.dll
+D:\dotnet_projects\BlazorProject\obj\Debug\net9.0\BlazorProject.sourcelink.json
