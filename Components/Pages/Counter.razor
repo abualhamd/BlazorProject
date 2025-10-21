@@ -1,7 +1,9 @@
 ﻿@page "/counter"
 @using System.Globalization
+@using System.Threading
 @layout Layout.MainLayout
 @rendermode InteractiveServer
+@implements IDisposable
 
 <PageTitle>Counter</PageTitle>
 
@@ -12,7 +14,7 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 <CustomButton OnClick='()=> Console.WriteLine("Custom Button is clicked")' class="btn btn-success">This is Custom Button</CustomButton>
 
-<input type="text" @oninput="OnInputChange" />
+<input type="text" @oninput="HandleInput" />
 
 @if (userInput is not null)
 {
@@ -26,6 +28,7 @@
 
 @code {
     private int currentCount = 0;
+    private Timer? _debounceTimer;
     [Parameter]
     [SupplyParameterFromQuery]
     public int? IncrementAmount { get; set; }
@@ -36,9 +39,25 @@
     {
         currentCount += IncrementAmount ?? 1;
     } 
-    private async Task OnInputChange(ChangeEventArgs args)
+    private async Task HandleInput(ChangeEventArgs args)
     {
-        userInput = args.Value?.ToString();
+        // Dispose of the existing timer
+        _debounceTimer?.Dispose();
+
+        // Create a new timer that will execute after 500ms
+        _debounceTimer = new Timer(async _ =>
+        {
+            await InvokeAsync(() =>
+            {
+                userInput = args.Value?.ToString();
+                StateHasChanged();
+            });
+        }, null, 500, Timeout.Infinite);
+    }
+
+    void IDisposable.Dispose()
+    {
+        _debounceTimer?.Dispose();
     }
 
     public string InputText { get; set;} = string.Empty;
