@@ -1,0 +1,41 @@
+﻿@page "/todos"
+@rendermode InteractiveServer
+
+<span>
+    <h3>Todos (@todos.Count(e => !e.IsCompleted))</h3>
+</span>
+
+<input type="text" @bind="newTodoTitle" @onkeydown="AddTodo" placeholder="Add a new todo"/>
+
+<ul>
+    @foreach(var todo in todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsCompleted" />
+            <span style="@(todo.IsCompleted ? "text-decoration: line-through;" : "")">@todo.Title</span>
+        </li>
+    }
+</ul>
+
+
+@code {
+    public class TodoItem
+    {
+        public string Title { get; set; } = string.Empty;
+        public bool IsCompleted { get; set; }
+    }
+
+    private List<TodoItem> todos = new List<TodoItem>{};
+
+    private string newTodoTitle = string.Empty;
+
+    private void AddTodo(KeyboardEventArgs args)
+    {
+        if((args.Key != "Enter") || string.IsNullOrWhiteSpace(newTodoTitle))
+        {
+            return;
+        }
+        todos.Add(new TodoItem { Title = newTodoTitle, IsCompleted = false });
+        newTodoTitle = string.Empty;
+    }
+}
